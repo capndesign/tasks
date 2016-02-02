@@ -1,3 +1,4 @@
 *.pyc
 venv/
 app.db
+instance/config.py
