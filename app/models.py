@@ -18,7 +18,6 @@ class Task(db.Model):
   goals           = db.relationship('Goal', secondary=goals, backref=db.backref('tasks', lazy='dynamic'))
   completed_tasks = db.relationship('CompletedTask', backref='task', lazy='dynamic')
 
-
   def __init__(self, title, repeats=False, timeframe="sometime"):
     self.title = title
     self.repeats = repeats
@@ -27,6 +26,9 @@ class Task(db.Model):
 
   def __repr__(self):
     return '<Task %r>' % (self.title)
+
+  def delete(self):
+    self.deleted_at = datetime.utcnow()
 
 class CompletedTask(db.Model):
   id              = db.Column(db.Integer, primary_key=True)

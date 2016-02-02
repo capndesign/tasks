@@ -4,9 +4,28 @@
   </head>
   <body>
     <h1>My tasks</h1>
+
+    {% with messages = get_flashed_messages() %}
+    <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endwith %}
+
     <ul>
     {% for task in tasks %}
-      <li>{{task.title}}</li>
+      <li>{{task.title}} [<a href="/task/{{task.id}}/delete">x</a>]</li>
     {% endfor %}
+    </ul>
+
+    <h4>Add an item</h4>
+
+    <form method="POST" action="/task/add">
+      {{ form.hidden_tag() }}
+      {{ form.title() }}
+      <input type="submit" value="Go">
+    </form>
+
   </body>
 </html>
