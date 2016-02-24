@@ -2,3 +2,5 @@
 venv/
 app.db
 instance/config.py
+node_modules
+app/static/dist/*

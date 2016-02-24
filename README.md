@@ -14,12 +14,14 @@ This is a Python app, powered by Flask and SQLite. So, you’ll need:
 * Python and pip
 * virtualenv
 
-There are "4" steps:
+There are "6" steps:
 
 1. After you `git clone`, create a [virtualenv](https://virtualenv.readthedocs.org/en/latest/) and `cd` into the root directory of the repo.
 2. Run `pip install -r requirements.txt`.
 3. Run `python ops/db_create.py` followed by `python ops/db_upgrade.py`.
-4. `python run.py`.
+4. Run `npm install -g gulp`.
+5. Run `npm install` followed by `gulp`.
+6. `python run.py`.
 
 ## What it does
 
