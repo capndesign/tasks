@@ -25,8 +25,13 @@ There are "6" steps:
 
 ## What it does
 
-Ha. Right now, it lists your tasks, which you have to enter from a python shell.
+Right now, it lists your tasks and goals.
 
-In the meantime, I’m using Flask-SQLAlchemy and their [Quickstart guide](http://flask-sqlalchemy.pocoo.org/2.1/quickstart/) plus a poke at the app’s models should get you started.
+## Resources
 
-I’ll do my best to keep this up-to-date as I go forward.
+I’m learning a lot of new stuff while doing this. Here’s what I’ve been looking at throughout the process.
+
+* Miguel Grinberg’s [Flask Mega-Tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
+* [Explore Flask](https://exploreflask.com/index.html)
+* [Flask-SQLAlchemy’s Quickstart guide](http://flask-sqlalchemy.pocoo.org/2.1/quickstart/)
+* [Getting started with gulp](https://markgoodyear.com/2014/01/getting-started-with-gulp/)
