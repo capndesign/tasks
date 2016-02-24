@@ -1,8 +1,5 @@
-<html>
-  <head>
-    <title>{{ title }} - microblog</title>
-  </head>
-  <body>
+{% extends "base.html" %}
+{% block content %}
     <h1>My tasks</h1>
 
     {% with messages = get_flashed_messages() %}
@@ -19,13 +16,31 @@
     {% endfor %}
     </ul>
 
-    <h4>Add an item</h4>
+    <h4>Add a task</h4>
 
     <form method="POST" action="/task/add">
-      {{ form.hidden_tag() }}
-      {{ form.title() }}
+      {{ taskForm.hidden_tag() }}
+      {{ taskForm.title() }}
+      {{ taskForm.goal_id() }}
       <input type="submit" value="Go">
     </form>
 
-  </body>
-</html>
+    <h1>My goals</h1>
+
+    <ul>
+    {% for goal in goals %}
+      <li>{{goal.title}} ({{goal.target}}) [<a href="/goal/{{goal.id}}/delete">x</a>]</li>
+    {% endfor %}
+    </ul>
+
+
+    <h4>Add a goal</h4>
+
+    <form method="POST" action="/goal/add">
+      {{ goalForm.hidden_tag() }}
+      <label>Title:</label> {{ goalForm.title() }}<br>
+      <label>Times:</label> {{ goalForm.target() }}<br>
+      <input type="submit" value="Go">
+    </form>
+
+{% endblock %}

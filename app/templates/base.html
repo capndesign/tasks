@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% block title %}Tasks{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="shortcut icon" href="/static/img/favicon.ico?v=1.1"> -->
+    {% block css %}<link rel="stylesheet" type="text/css" href="/static/dist/css/index.css">{% endblock %}
+    {% block more_head %}{% endblock %}
+
+  </head>
+  <body>
+    <div id="content">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
