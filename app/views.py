@@ -4,6 +4,8 @@ from .models import Task, Goal
 from flask_wtf import Form
 from wtforms import StringField, IntegerField, SelectField
 
+# Having these forms up top breaks db creation/updates
+# TODO: Fix it.
 class TaskAddForm(Form):
   goal_choices = [(g.id, g.title) for g in Goal.query.all()]
   goal_choices.insert(0, ("0", "Pick a goal"))
@@ -19,10 +21,9 @@ class GoalAddForm(Form):
 def index():
     tasks = Task.query.filter_by(deleted_at=None).all()
     goals = Goal.query.filter_by(deleted_at=None).all()
-    taf = TaskAddForm()
 
     return render_template('index.html', title="Tasks", tasks=tasks, goals=goals,
-                            taskForm = taf, goalForm = GoalAddForm())
+                            taskForm = TaskAddForm(), goalForm = GoalAddForm())
 
 
 @app.route('/task/add', methods=['POST', 'GET'])

@@ -7,21 +7,21 @@ goals = db.Table('goals_tasks',
 )
 
 class Task(db.Model):
-  id              = db.Column(db.Integer, primary_key=True)
-  title           = db.Column(db.String(500), index=True, unique=True)
-  repeats         = db.Column(db.String(32))
-  timeframe       = db.Column(db.String(32))
-  last_completed  = db.Column(db.DateTime)
-  created_at      = db.Column(db.DateTime)
-  archived_at     = db.Column(db.DateTime)
-  deleted_at      = db.Column(db.DateTime)
-  goals           = db.relationship('Goal', secondary=goals, backref=db.backref('tasks', lazy='dynamic'))
-  completed_tasks = db.relationship('CompletedTask', backref='task', lazy='dynamic')
+  id                = db.Column(db.Integer, primary_key=True)
+  title             = db.Column(db.String(500), index=True, unique=True)
+  repeat_interval   = db.Column(db.Integer)
+  repeat_unit       = db.Column(db.String(32))
+  last_completed    = db.Column(db.DateTime)
+  created_at        = db.Column(db.DateTime)
+  archived_at       = db.Column(db.DateTime)
+  deleted_at        = db.Column(db.DateTime)
+  goals             = db.relationship('Goal', secondary=goals, backref=db.backref('tasks', lazy='dynamic'))
+  completed_tasks   = db.relationship('CompletedTask', backref='task', lazy='dynamic')
 
-  def __init__(self, title, repeats=False, timeframe="sometime"):
+  def __init__(self, title, repeat_interval=None, repeat_unit=None):
     self.title = title
-    self.repeats = repeats
-    self.timeframe = timeframe
+    self.repeat_interval = repeat_interval
+    self.repeat_unit = repeat_unit
     self.created_at = datetime.utcnow()
 
   def __repr__(self):
@@ -62,3 +62,9 @@ class Goal(db.Model):
 
   def __repr__(self):
     return '<Goal %r>' % (self.title)
+
+  # def completions_count(self):
+  #   count = 0
+  #   for task in self.tasks:
+  #     completed_tasks = CompletedTask.query.filter_by(task_id=task.id)
+  #     print
