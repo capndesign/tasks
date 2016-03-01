@@ -63,8 +63,10 @@ class Goal(db.Model):
   def __repr__(self):
     return '<Goal %r>' % (self.title)
 
-  # def completions_count(self):
-  #   count = 0
-  #   for task in self.tasks:
-  #     completed_tasks = CompletedTask.query.filter_by(task_id=task.id)
-  #     print
+  def completions_count(self):
+    count = 0
+    for task in self.tasks:
+      if task.deleted_at == None:
+        completed_tasks = CompletedTask.query.filter_by(task_id=task.id).all()
+        count += len(completed_tasks)
+    return count

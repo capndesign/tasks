@@ -12,7 +12,11 @@
 
     <ul>
     {% for task in tasks %}
-      <li>{{task.title}} [<a href="/task/{{task.id}}/delete">x</a>]</li>
+    {% if task.archived_at %}
+      <li><strike>{{task.title}}</strike></li>
+    {% else %}
+      <li>{{task.title}} [<a href="/task/{{task.id}}/delete">x</a>] [<a href="/task/{{task.id}}/complete">y</a>]</li>
+    {% endif %}
     {% endfor %}
     </ul>
 
@@ -29,7 +33,7 @@
 
     <ul>
     {% for goal in goals %}
-      <li>{{goal.title}} ({{goal.target}}) [<a href="/goal/{{goal.id}}/delete">x</a>]</li>
+      <li>{{goal.title}} ({{goal.completions_count()}} / {{goal.target}}) [<a href="/goal/{{goal.id}}/delete">x</a>]</li>
     {% endfor %}
     </ul>
 

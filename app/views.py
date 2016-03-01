@@ -1,6 +1,7 @@
 from flask import render_template, redirect, flash
+from datetime import datetime
 from app import app, db
-from .models import Task, Goal
+from .models import Task, Goal, CompletedTask
 from flask_wtf import Form
 from wtforms import StringField, IntegerField, SelectField
 
@@ -43,6 +44,24 @@ def add_task():
   else:
     print form.errors
     flash('The task could not be saved.', 'error')
+  return redirect('/')
+
+@app.route('/task/<int:task_id>/complete', methods=['POST', 'GET'])
+def complete_task(task_id):
+  task = Task.query.get(task_id)
+  print task.title
+  if task:
+    newCompletion = CompletedTask(task)
+    db.session.add(newCompletion)
+
+    task.last_completed = datetime.utcnow()
+    if not task.repeat_interval:
+      task.archived_at = datetime.utcnow()
+
+    db.session.commit()
+    flash('"%s" was completed' % task.title, 'success')
+  else:
+    flash('There is no task with an ID of %s' % task_id, 'error')
   return redirect('/')
 
 @app.route('/task/<int:task_id>/delete', methods=['POST', 'GET'])
