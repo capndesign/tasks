@@ -9,7 +9,7 @@ goals = db.Table('goals_tasks',
 
 class Task(db.Model):
   id                = db.Column(db.Integer, primary_key=True)
-  title             = db.Column(db.String(500), index=True, unique=True)
+  title             = db.Column(db.String(500), index=True)
   repeat_interval   = db.Column(db.Integer)
   repeat_unit       = db.Column(db.String(32))
   last_completed    = db.Column(db.DateTime)
