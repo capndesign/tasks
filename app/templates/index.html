@@ -15,7 +15,7 @@
     {% if task.archived_at %}
       <li><strike>{{task.title}}</strike></li>
     {% else %}
-      <li>{{task.title}} [<a href="/task/{{task.id}}/delete">x</a>] [<a href="/task/{{task.id}}/complete">y</a>]</li>
+      <li data-taskID="{{task.id}}">{{task.title}} [<a href="/task/{{task.id}}/delete">x</a>] [<a href="/task/{{task.id}}/complete">y</a>]</li>
     {% endif %}
     {% endfor %}
     </ul>
@@ -25,7 +25,8 @@
     <form method="POST" action="/task/add">
       {{ taskForm.hidden_tag() }}
       {{ taskForm.title() }}
-      {{ taskForm.goal_id() }}
+      {{ taskForm.goal_id() }} <br>
+      Repeats every {{ taskForm.repeat_interval() }} {{ taskForm.repeat_unit() }} <br>
       <input type="submit" value="Go">
     </form>
 

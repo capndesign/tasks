@@ -1,5 +1,6 @@
 from app import db
 from datetime import datetime
+import arrow
 
 goals = db.Table('goals_tasks',
     db.Column('goal_id', db.Integer, db.ForeignKey('goal.id')),
@@ -13,6 +14,7 @@ class Task(db.Model):
   repeat_unit       = db.Column(db.String(32))
   last_completed    = db.Column(db.DateTime)
   created_at        = db.Column(db.DateTime)
+  due_at            = db.Column(db.DateTime)
   archived_at       = db.Column(db.DateTime)
   deleted_at        = db.Column(db.DateTime)
   goals             = db.relationship('Goal', secondary=goals, backref=db.backref('tasks', lazy='dynamic'))
@@ -23,6 +25,13 @@ class Task(db.Model):
     self.repeat_interval = repeat_interval
     self.repeat_unit = repeat_unit
     self.created_at = datetime.utcnow()
+
+    # If the task repeats, set a due date.
+    if repeat_unit and repeat_interval:
+      kw = {repeat_unit : repeat_interval}
+      arw = arrow.utcnow()
+      arw = arw.replace(**kw)
+      self.due_at = arw.datetime
 
   def __repr__(self):
     return '<Task %r>' % (self.title)

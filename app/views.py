@@ -3,15 +3,18 @@ from datetime import datetime
 from app import app, db
 from .models import Task, Goal, CompletedTask
 from flask_wtf import Form
-from wtforms import StringField, IntegerField, SelectField
+from wtforms import StringField, IntegerField, SelectField, validators
 
 # Having these forms up top breaks db creation/updates
 # TODO: Fix it.
 class TaskAddForm(Form):
   goal_choices = [(g.id, g.title) for g in Goal.query.all()]
-  goal_choices.insert(0, ("0", "Pick a goal"))
+  goal_choices.insert(0, (0, "Pick a goal"))
   title = StringField('title')
-  goal_id = SelectField('goals', coerce=int, choices = goal_choices)
+  goal_id = SelectField('goals', validators = [validators.optional()], coerce=int, choices = goal_choices)
+  repeat_interval = IntegerField('repeat_interval', validators = [validators.optional()])
+  repeat_unit = SelectField('repeat_unit', validators = [validators.optional()],
+    choices = [('days', 'days'), ('weeks', 'weeks'), ('months', 'months'), ('years', 'years')])
 
 class GoalAddForm(Form):
   title = StringField('title')
@@ -31,12 +34,12 @@ def index():
 def add_task():
   form = TaskAddForm()
   if form.validate_on_submit():
-    print form.title.data
-    newTask = Task(form.title.data)
-    if form.goal_id != 0:
-      print form.goal_id.data
+    if form.repeat_interval.data:
+      newTask = Task(form.title.data, repeat_interval=form.repeat_interval.data, repeat_unit=form.repeat_unit.data)
+    else:
+      newTask = Task(form.title.data)
+    if form.goal_id.data != 0:
       goalToAdd = Goal.query.get(form.goal_id.data)
-      print goalToAdd
       newTask.goals.append(goalToAdd)
     db.session.add(newTask)
     db.session.commit()
