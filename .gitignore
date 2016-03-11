@@ -3,4 +3,5 @@ venv/
 app.db
 instance/config.py
 node_modules
+bower_components
 app/static/dist/*

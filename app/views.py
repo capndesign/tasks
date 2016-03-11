@@ -1,8 +1,8 @@
-from flask import render_template, redirect, flash
+from flask import render_template, redirect, flash, request, jsonify
 from datetime import datetime
 from app import app, db
 from .models import Task, Goal, CompletedTask
-from flask_wtf import Form
+from flask.ext.wtf import Form
 from wtforms import StringField, IntegerField, SelectField, validators
 
 # Having these forms up top breaks db creation/updates
@@ -33,6 +33,7 @@ def index():
 @app.route('/task/add', methods=['POST', 'GET'])
 def add_task():
   form = TaskAddForm()
+  print form.data
   if form.validate_on_submit():
     if form.repeat_interval.data:
       newTask = Task(form.title.data, repeat_interval=form.repeat_interval.data, repeat_unit=form.repeat_unit.data)
@@ -47,7 +48,17 @@ def add_task():
   else:
     print form.errors
     flash('The task could not be saved.', 'error')
-  return redirect('/')
+
+  if request.headers["X-CSRFToken"]:
+    resp = {
+      "meta": {
+        "foo": 200,
+        "bar": "status"
+      }
+    }
+    return jsonify(resp)
+  else:
+    return redirect('/')
 
 @app.route('/task/<int:task_id>/complete', methods=['POST', 'GET'])
 def complete_task(task_id):

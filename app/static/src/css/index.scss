@@ -3,3 +3,10 @@
 body {
   margin: 1em;
 }
+
+.task {
+  &--complete {
+    color: #999;
+    text-decoration: line-through;
+  }
+}
